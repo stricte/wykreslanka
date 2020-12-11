@@ -140,6 +140,9 @@ function App() {
                   onMouseDown={() => onMouseDown(i, ii)}
                   onMouseUp={() => onMouseUp(i, ii)}
                   onMouseOver={() => onMouseOver(i, ii)}
+                  onTouchStart={() => onMouseDown(i, ii)}
+                  onTouchEnd={() => onMouseUp(i, ii)}
+                  onTouchMove={() => onMouseOver(i, ii)}
                 >
                   {cell}
                 </div>
