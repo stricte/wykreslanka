@@ -1,13 +1,88 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: steelblue;
+  color: aliceblue;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center;
+}
+
+.grid {
+  border-width: 2px;
+  border-color: white;
+  border-style: solid;
+}
+
+.row {
+  display: flex;
+  border-width: 2px;
+}
+
+.cell {
+  display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center;
+  border-width: 2px;
+  border-color: white;
+  border-style: solid;
+  width: 50px;
+  height: 50px;
+  text-transform: capitalize;
+  font-size: 20px;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+.cell:hover {
+  font-size: 25px;
+  color: white;
+}
+
+.cell.selected {
+  background-color: slateblue;
+  font-size: 25px;
+  color: white;
+}
+
+.cell.marked {
+  background-color: slateblue;
+}
+
+.wordList {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50%;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.word.marked {
+  text-decoration: line-through;
+  color: gainsboro;
 }
