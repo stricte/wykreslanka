@@ -39,13 +39,13 @@ const initGrid = (m, n) => {
 
 const dirs = {
   right: [0, 1],
-  // left: [0, -1],
-  // up: [-1, 0],
+  left: [0, -1],
+  up: [-1, 0],
   down: [1, 0],
   rightdown: [1, 1],
   rightup: [-1, 1],
-  // leftdown: [1, -1],
-  // leftup: [-1, -1],
+  leftdown: [1, -1],
+  leftup: [-1, -1],
 };
 
 const randomWord = (words) =>

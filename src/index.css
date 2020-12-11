@@ -20,6 +20,15 @@ body,
   height: 100%;
 }
 
+.toolbar {
+  margin-bottom: 10px;
+}
+
+.toolbar > button {
+  padding: 4px;
+  min-width: 100px;
+}
+
 .container {
   height: 100%;
   display: flex;
@@ -28,9 +37,7 @@ body,
 }
 
 .grid {
-  border-width: 2px;
-  border-color: white;
-  border-style: solid;
+  border-width: 0px;
 }
 
 .row {
@@ -73,6 +80,7 @@ body,
 }
 
 .wordList {
+  min-width: 200px;
   margin-left: 20px;
   display: flex;
   flex-direction: column;

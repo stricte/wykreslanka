@@ -116,40 +116,52 @@ function App() {
     );
   };
 
-  return (
-    <div className="container">
-      <div className="grid">
-        {grid.map((row, i) => (
-          <div className="row" key={`row-${i}`}>
-            {row.map((cell, ii) => (
-              <div
-                className={classNames("cell", {
-                  selected: cellSelected([i, ii]),
-                  marked: cellMarked([i, ii]),
-                })}
-                key={`cell-${ii}`}
-                onMouseDown={() => onMouseDown(i, ii)}
-                onMouseUp={() => onMouseUp(i, ii)}
-                onMouseOver={() => onMouseOver(i, ii)}
-              >
-                {cell}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+  const resetGame = () => {
+    window.localStorage.clear();
+    window.location.reload();
+  };
 
-      <div className="wordList">
-        {placedWords.map((word, i) => (
-          <div
-            className={classNames("word", { marked: markedWords.includes(i) })}
-            key={`word-${i}`}
-          >
-            {word}
+  return (
+    <>
+      <div className="container">
+        <div className="grid">
+          <div className="toolbar">
+            <button onClick={resetGame}>Reset</button>
           </div>
-        ))}
+          {grid.map((row, i) => (
+            <div className="row" key={`row-${i}`}>
+              {row.map((cell, ii) => (
+                <div
+                  className={classNames("cell", {
+                    selected: cellSelected([i, ii]),
+                    marked: cellMarked([i, ii]),
+                  })}
+                  key={`cell-${ii}`}
+                  onMouseDown={() => onMouseDown(i, ii)}
+                  onMouseUp={() => onMouseUp(i, ii)}
+                  onMouseOver={() => onMouseOver(i, ii)}
+                >
+                  {cell}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        <div className="wordList">
+          {placedWords.map((word, i) => (
+            <div
+              className={classNames("word", {
+                marked: markedWords.includes(i),
+              })}
+              key={`word-${i}`}
+            >
+              {word}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
