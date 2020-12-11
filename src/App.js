@@ -121,13 +121,19 @@ function App() {
     window.location.reload();
   };
 
+  const dummyListener = (e) => e.preventDefault();
+
   const onTouchStart = (x, y) => {
+    document.addEventListener("touchstart", dummyListener);
+
     setSelectionMode(true);
     setStart([x, y]);
     setStop([x, y]);
   };
 
   const onTouchEnd = () => {
+    document.removeEventListener("touchstart", dummyListener);
+
     setSelectionMode(false);
   };
 
