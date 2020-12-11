@@ -7,7 +7,7 @@ import React, {
 import classNames from "classnames";
 
 import "./App.css";
-import { generate, lineCords } from "./utils";
+import { generate, lineCords, isMobile } from "./utils";
 
 let placedWords = JSON.parse(window.localStorage.getItem("placedWords"));
 let grid = JSON.parse(window.localStorage.getItem("grid"));
@@ -121,6 +121,34 @@ function App() {
     window.location.reload();
   };
 
+  const onTouchStart = (x, y) => {
+    setSelectionMode(true);
+    setStart([x, y]);
+    setStop([x, y]);
+  };
+
+  const onTouchEnd = () => {
+    setSelectionMode(false);
+  };
+
+  const onTouchMove = (e) => {
+    if (!selectionMode) return;
+
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    const {
+      dataset: { x, y },
+    } = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    const cords = [parseInt(x), parseInt(y)];
+
+    setStop((prev) => {
+      if (prev && prev.join("") === cords.join("")) return null;
+      else return cords;
+    });
+  };
+
   return (
     <>
       <div className="container">
@@ -136,13 +164,15 @@ function App() {
                     selected: cellSelected([i, ii]),
                     marked: cellMarked([i, ii]),
                   })}
+                  data-x={i}
+                  data-y={ii}
                   key={`cell-${ii}`}
-                  onMouseDown={() => onMouseDown(i, ii)}
-                  onMouseUp={() => onMouseUp(i, ii)}
-                  onMouseOver={() => onMouseOver(i, ii)}
-                  onTouchStart={() => onMouseDown(i, ii)}
-                  onTouchEnd={() => onMouseUp(i, ii)}
-                  onTouchMove={() => onMouseOver(i, ii)}
+                  onMouseDown={() => !isMobile() && onMouseDown(i, ii)}
+                  onMouseUp={() => !isMobile() && onMouseUp(i, ii)}
+                  onMouseOver={() => !isMobile() && onMouseOver(i, ii)}
+                  onTouchStart={(e) => isMobile() && onTouchStart(i, ii)}
+                  onTouchEnd={() => isMobile() && onTouchEnd()}
+                  onTouchMove={(e) => isMobile() && onTouchMove(e)}
                 >
                   {cell}
                 </div>

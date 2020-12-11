@@ -171,3 +171,6 @@ export const generate = (m = 10, n = 10, wordsCount = 7) => {
 
   return [placedWords, grid, placedWordsCords];
 };
+
+export const isMobile = () =>
+  window.matchMedia("(hover: none) and (pointer: coarse)").matches;

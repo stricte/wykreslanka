@@ -9,18 +9,16 @@ body {
   color: aliceblue;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 html,
 body,
 #root {
   height: 100%;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .toolbar {
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
@@ -34,6 +32,7 @@ body,
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .grid {
@@ -85,9 +84,20 @@ body,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 50%;
   font-weight: bold;
   font-size: 25px;
+}
+
+@media only screen and (max-width: 759px) {
+  .wordList {
+    margin-top: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .word {
+    padding-right: 10px;
+  }
 }
 
 .word.marked {
