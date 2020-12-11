@@ -144,7 +144,7 @@ const fillGrid = (grid) => {
   return grid;
 };
 
-export const generate = (m = 10, n = 10, wordsCount = 7) => {
+export const generate = (m = 10, n = 10, wordsCount = 10) => {
   let grid = initGrid(m, n);
   let placedWords = [];
   let placedWordsCords = [];
