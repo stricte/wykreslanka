@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/wykreslanka/static/css/main.cbd591fc.chunk.css",
-    "main.js": "/wykreslanka/static/js/main.253c397d.chunk.js",
-    "main.js.map": "/wykreslanka/static/js/main.253c397d.chunk.js.map",
+    "main.js": "/wykreslanka/static/js/main.015c89d6.chunk.js",
+    "main.js.map": "/wykreslanka/static/js/main.015c89d6.chunk.js.map",
     "runtime-main.js": "/wykreslanka/static/js/runtime-main.a30bb372.js",
     "runtime-main.js.map": "/wykreslanka/static/js/runtime-main.a30bb372.js.map",
     "static/js/2.8396fa39.chunk.js": "/wykreslanka/static/js/2.8396fa39.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.a30bb372.js",
     "static/js/2.8396fa39.chunk.js",
     "static/css/main.cbd591fc.chunk.css",
-    "static/js/main.253c397d.chunk.js"
+    "static/js/main.015c89d6.chunk.js"
   ]
 }
