@@ -1,12 +1,10 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Gochi Hand", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: steelblue;
-  color: aliceblue;
+  background-color: #fffbf7;
+  color: #98785b;
 }
 
 html,
@@ -37,6 +35,7 @@ body,
 }
 
 .grid {
+  margin-top: 10px;
   border-width: 0px;
 }
 
@@ -49,8 +48,8 @@ body,
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center;
-  border-width: 2px;
-  border-color: white;
+  border-width: 3px;
+  border-color: #fffbf7;
   border-style: solid;
   width: 50px;
   height: 50px;
@@ -62,6 +61,10 @@ body,
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
+  border-radius: 15px;
+  background-color: #a1d7e4;
+  cursor: pointer;
+  color: #3f9db4;
 }
 
 .cell:hover {
@@ -70,13 +73,14 @@ body,
 }
 
 .cell.selected {
-  background-color: slateblue;
+  background-color: #efd37f;
   font-size: 25px;
-  color: white;
+  color: #c48e31;
 }
 
 .cell.marked {
-  background-color: slateblue;
+  background-color: #efd37f;
+  color: #c48e31;
 }
 
 .wordList {
@@ -88,11 +92,13 @@ body,
   font-weight: bold;
   font-size: 25px;
   flex-wrap: wrap;
+  color: #a1d7e4;
 }
 
 @media only screen and (max-width: 759px) {
   .container {
     flex-direction: column;
+    align-items: center;
   }
 
   .wordList {
@@ -121,5 +127,60 @@ body,
 
 .word.marked {
   text-decoration: line-through;
-  color: gainsboro;
+  color: #bfd04e;
+  opacity: 0.5;
+}
+
+input,
+textarea,
+select,
+button {
+  outline: none;
+  font-family: "Arvo", serif;
+}
+
+a,
+a:visited,
+a:focus,
+a:active {
+  text-decoration: none;
+  /* 	color: #98785b; */
+  color: #ea6b6e;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+a.btn,
+input.btn[type="submit"] {
+  display: block;
+  width: 140px;
+  height: 52px;
+  font-family: "Gochi Hand", cursive;
+  font-size: 20px;
+  line-height: 52px;
+  text-align: center;
+}
+a.btn:hover {
+  text-decoration: none;
+}
+a.yellow {
+  color: #c48e31;
+  background: url(./images/bg_yellow-btn.png) no-repeat;
+}
+a.red {
+  color: #fff;
+  background: url(./images/bg_red-btn.png) no-repeat;
+}
+a.red:hover,
+a.yellow:hover {
+  opacity: 0.8;
+}
+input.white[type="submit"] {
+  color: #73b0be;
+  border: none;
+  background: url(./images/bg_white-btn.png) no-repeat;
+}
+input.white[type="submit"]:hover {
+  opacity: 0.8;
 }

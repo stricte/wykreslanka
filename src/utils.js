@@ -127,8 +127,46 @@ const randomCords = (m, n) => {
   return [random(0, m), random(0, n)];
 };
 
+const codes = [
+  97,
+  98,
+  99,
+  100,
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  119,
+  120,
+  121,
+  122,
+  261,
+  263,
+  281,
+  322,
+  324,
+  243,
+  347,
+  378,
+  380,
+];
+
 const randomValue = () =>
-  String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  String.fromCharCode(codes[Math.floor(Math.random() * codes.length)]);
 
 const fillGrid = (grid) => {
   grid = cloneGrid(grid);
@@ -169,8 +207,29 @@ export const generate = (m = 10, n = 10, wordsCount = 10) => {
 
   grid = fillGrid(grid);
 
-  return [placedWords, grid, placedWordsCords];
+  return [placedWords, placedWordsCords, grid];
 };
 
 export const isMobile = () =>
   window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+export const storageAvailable = (type) => {
+  var storage;
+  try {
+    storage = window[type];
+    var x = "__storage_test__";
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      (e.code === 22 ||
+        e.code === 1014 ||
+        e.name === "QuotaExceededError" ||
+        e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+      storage &&
+      storage.length !== 0
+    );
+  }
+};

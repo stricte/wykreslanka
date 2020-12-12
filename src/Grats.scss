@@ -1,0 +1,19 @@
+.Grats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .Title {
+    color: #ea6b6e;
+    text-shadow: 2px 2px 3px #ce5a5d;
+    margin-bottom: 0px;
+  }
+
+  p {
+    text-align: center;
+    color: #9e9994;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}

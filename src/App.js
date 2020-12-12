@@ -4,46 +4,89 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import classNames from "classnames";
+import { v4 as uuidv4 } from "uuid";
+import { useQueryParam, NumberParam } from "use-query-params";
 
-import "./App.css";
-import { generate, lineCords, isMobile } from "./utils";
+import { generate, lineCords } from "./utils";
+import { Grid } from "./Grid";
+import { WordList } from "./WordList";
 
-let placedWords = JSON.parse(window.localStorage.getItem("placedWords"));
-let grid = JSON.parse(window.localStorage.getItem("grid"));
-let placedWordsCords = JSON.parse(
-  window.localStorage.getItem("placedWordsCords")
-);
-
-if (!placedWordsCords || !grid || !placedWordsCords) {
-  [placedWords, grid, placedWordsCords] = generate();
-
-  window.localStorage.setItem("placedWords", JSON.stringify(placedWords));
-  window.localStorage.setItem("grid", JSON.stringify(grid));
-  window.localStorage.setItem(
-    "placedWordsCords",
-    JSON.stringify(placedWordsCords)
-  );
-}
+import useStateWithLocalStorage from "./useStateWithLocalStorage";
+import Hello from "./Hello";
+import Loader from "./Loader";
+import Grats from "./Grats";
 
 function App() {
+  const [m] = useQueryParam("m", NumberParam);
+  const [n] = useQueryParam("n", NumberParam);
+  const [c] = useQueryParam("c", NumberParam);
+
   const [start, setStart] = useState();
   const [stop, setStop] = useState();
 
   const [selectedCords, setSelectedCords] = useState();
   const [selectionMode, setSelectionMode] = useState(false);
 
-  const [markedWords, setMarkedWords] = useState(
-    JSON.parse(window.localStorage.getItem("markedWords") || "[]")
+  const [gameId, setGameId] = useStateWithLocalStorage("gameId", null);
+  const [userId, setUserId] = useStateWithLocalStorage("userId", uuidv4());
+  const [username, setUsername] = useStateWithLocalStorage("username", null);
+
+  const [markedWords, setMarkedWords] = useStateWithLocalStorage(
+    "markedWords",
+    []
   );
-  const [markedCords, setMarkedCords] = useState(
-    JSON.parse(window.localStorage.getItem("markedCords") || "[]")
+  const [markedCords, setMarkedCords] = useStateWithLocalStorage(
+    "markedCords",
+    []
   );
 
+  const [grid, setGrid] = useStateWithLocalStorage("grid", null);
+  const [placedWords, setPlacedWords] = useStateWithLocalStorage(
+    "placedWords",
+    null
+  );
+  const [placedCords, setPlacedCords] = useStateWithLocalStorage(
+    "placedCords",
+    null
+  );
+
+  const allMarked = () => markedWords.length === placedWords.length;
+
+  const gameInitialized = useCallback(() => gameId, [gameId]);
+
+  const initializeGame = useCallback(() => {
+    const [placedWords, placedCords, grid] = generate(m, n, c);
+
+    setStart(null);
+    setStop(null);
+
+    setSelectionMode(false);
+    setSelectedCords(false);
+
+    setMarkedWords([]);
+    setMarkedCords([]);
+
+    setPlacedWords(placedWords);
+    setPlacedCords(placedCords);
+    setGrid(grid);
+
+    setGameId(uuidv4());
+  }, [
+    setPlacedWords,
+    setPlacedCords,
+    setGrid,
+    setGameId,
+    setMarkedCords,
+    setMarkedWords,
+    m,
+    n,
+    c,
+  ]);
+
   useEffect(() => {
-    window.localStorage.setItem("markedWords", JSON.stringify(markedWords));
-    window.localStorage.setItem("markedCords", JSON.stringify(markedCords));
-  }, [markedWords, markedCords]);
+    if (gameInitialized()) return;
+    initializeGame();
+  }, [gameInitialized, initializeGame]);
 
   const onMouseDown = (x, y) => {
     setSelectionMode(true);
@@ -65,14 +108,14 @@ function App() {
     let markedIndex = -1;
     const selectedKey = [].concat(...selectedCords).join("");
 
-    placedWordsCords.forEach((placedWordCords, index) => {
-      const placedKey = [].concat(...placedWordCords).join("");
+    placedCords.forEach((cords, index) => {
+      const placedKey = [].concat(...cords).join("");
 
       if (placedKey === selectedKey) markedIndex = index;
     });
 
     return markedIndex;
-  }, [selectedCords]);
+  }, [selectedCords, placedCords]);
 
   useLayoutEffect(() => {
     if (!start) return;
@@ -96,7 +139,13 @@ function App() {
     setSelectedCords();
     setStart();
     setStop();
-  }, [selectionMode, selectedCords, wordMarkedIndex]);
+  }, [
+    selectionMode,
+    selectedCords,
+    wordMarkedIndex,
+    setMarkedCords,
+    setMarkedWords,
+  ]);
 
   const cellMarked = (cords) => {
     if (!markedCords) return false;
@@ -117,8 +166,7 @@ function App() {
   };
 
   const resetGame = () => {
-    window.localStorage.clear();
-    window.location.reload();
+    initializeGame();
   };
 
   const dummyListener = (e) => e.preventDefault();
@@ -155,50 +203,38 @@ function App() {
     });
   };
 
+  const introduced = () => !!username;
+
+  const onUsername = (username) => setUsername(username);
+
   return (
     <>
       <div className="container">
-        <div className="grid">
-          <div className="toolbar">
-            <button onClick={resetGame}>Reset</button>
-          </div>
-          {grid.map((row, i) => (
-            <div className="row" key={`row-${i}`}>
-              {row.map((cell, ii) => (
-                <div
-                  className={classNames("cell", {
-                    selected: cellSelected([i, ii]),
-                    marked: cellMarked([i, ii]),
-                  })}
-                  data-x={i}
-                  data-y={ii}
-                  key={`cell-${ii}`}
-                  onMouseDown={() => !isMobile() && onMouseDown(i, ii)}
-                  onMouseUp={() => !isMobile() && onMouseUp(i, ii)}
-                  onMouseOver={() => !isMobile() && onMouseOver(i, ii)}
-                  onTouchStart={(e) => isMobile() && onTouchStart(i, ii)}
-                  onTouchEnd={() => isMobile() && onTouchEnd()}
-                  onTouchMove={(e) => isMobile() && onTouchMove(e)}
-                >
-                  {cell}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
+        {!introduced() && <Hello onSubmit={onUsername} />}
 
-        <div className="wordList">
-          {placedWords.map((word, i) => (
-            <div
-              className={classNames("word", {
-                marked: markedWords.includes(i),
-              })}
-              key={`word-${i}`}
-            >
-              {word}
-            </div>
-          ))}
-        </div>
+        {introduced() && !gameInitialized() && <Loader />}
+
+        {introduced() && gameInitialized() && allMarked() && (
+          <Grats username={username} onAgain={resetGame} />
+        )}
+        {introduced() && gameInitialized() && !allMarked() && (
+          <>
+            <Grid
+              grid={grid}
+              onMouseDown={onMouseDown}
+              onMouseOver={onMouseOver}
+              onMouseUp={onMouseUp}
+              onReset={resetGame}
+              onTouchEnd={onTouchEnd}
+              onTouchMove={onTouchMove}
+              onTouchStart={onTouchStart}
+              cellSelected={cellSelected}
+              cellMarked={cellMarked}
+            />
+
+            <WordList placedWords={placedWords} markedWords={markedWords} />
+          </>
+        )}
       </div>
     </>
   );
