@@ -18,6 +18,8 @@ body,
 }
 
 .toolbar {
+  display: flex;
+  justify-content: center;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -27,22 +29,60 @@ body,
   min-width: 100px;
 }
 
+.toolbar ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.toolbar ul li {
+  /* display: inline-block; */
+  line-height: 50px;
+  margin: 5px;
+  font-family: "Gochi Hand", cursive;
+}
+
+.toolbar ul li a {
+  display: block;
+  width: 110px;
+  height: 50px;
+  text-align: center;
+  color: #9e9994;
+  text-decoration: none;
+  font-family: "Caveat", cursive;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .container {
   height: 100%;
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .grid {
   margin-top: 10px;
   border-width: 0px;
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+}
+
+.grid .grid-inner {
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
 }
 
 .row {
   display: flex;
   border-width: 2px;
+  justify-content: center;
+  align-items: center;
 }
 
 .cell {
@@ -85,11 +125,9 @@ body,
 }
 
 .wordList {
-  min-width: 200px;
-  margin-left: 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: center;
   font-weight: bold;
   font-size: 25px;
   flex-wrap: wrap;
@@ -104,7 +142,6 @@ body,
 
   .wordList {
     margin-top: 10px;
-    flex-direction: row;
   }
 
   .word {
@@ -124,6 +161,10 @@ body,
     width: 30px;
     height: 30px;
   }
+}
+
+.word {
+  margin-right: 5px;
 }
 
 .word.marked {

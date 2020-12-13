@@ -61,34 +61,37 @@ function App() {
 
   const gameInitialized = useCallback(() => gameId, [gameId]);
 
-  const initializeGame = useCallback(() => {
-    const [placedWords, placedCords, grid] = generate(m, n, c);
+  const initializeGame = useCallback(
+    (mm = m, nn = n, cc = c) => {
+      const [placedWords, placedCords, grid] = generate(mm, nn, cc);
 
-    setStart(null);
-    setStop(null);
+      setStart(null);
+      setStop(null);
 
-    setSelectionMode(false);
-    setSelectedCords(false);
+      setSelectionMode(false);
+      setSelectedCords(false);
 
-    setMarkedWords([]);
-    setMarkedCords([]);
+      setMarkedWords([]);
+      setMarkedCords([]);
 
-    setPlacedWords(placedWords);
-    setPlacedCords(placedCords);
-    setGrid(grid);
+      setPlacedWords(placedWords);
+      setPlacedCords(placedCords);
+      setGrid(grid);
 
-    setGameId(uuidv4());
-  }, [
-    setPlacedWords,
-    setPlacedCords,
-    setGrid,
-    setGameId,
-    setMarkedCords,
-    setMarkedWords,
-    m,
-    n,
-    c,
-  ]);
+      setGameId(uuidv4());
+    },
+    [
+      setPlacedWords,
+      setPlacedCords,
+      setGrid,
+      setGameId,
+      setMarkedCords,
+      setMarkedWords,
+      m,
+      n,
+      c,
+    ]
+  );
 
   const calcSafetyPins = () => markedWords.length;
 
@@ -97,20 +100,25 @@ function App() {
     initializeGame();
   }, [gameInitialized, initializeGame]);
 
-  const onMouseDown = (x, y) => {
+  const onSelectionStart = (x, y) => {
     setSelectionMode(true);
     setStart([x, y]);
     setStop([x, y]);
   };
 
-  const onMouseUp = (x, y) => {
-    setStop([x, y]);
-    setSelectionMode(false);
+  const onSelectionMove = (x, y) => {
+    if (!selectionMode) return;
+
+    const cords = [x, y];
+
+    setStop((prev) => {
+      if (prev && prev.join("") === cords.join("")) return null;
+      else return cords;
+    });
   };
 
-  const onMouseOver = (x, y) => {
-    if (!selectionMode) return;
-    setStop([x, y]);
+  const onSelectionStop = (x, y) => {
+    setSelectionMode(false);
   };
 
   const wordMarkedIndex = useCallback(() => {
@@ -173,38 +181,8 @@ function App() {
     );
   };
 
-  const resetGame = () => {
-    initializeGame();
-  };
-
-  const onTouchStart = (x, y) => {
-    setSelectionMode(true);
-    setStart([x, y]);
-    setStop([x, y]);
-  };
-
-  const onTouchEnd = () => {
-    setSelectionMode(false);
-  };
-
-  const onTouchMove = (e) => {
-    if (!selectionMode) return;
-
-    const touch = e.touches[0];
-    if (!touch) return;
-
-    const {
-      dataset: { x, y },
-    } = document.elementFromPoint(touch.clientX, touch.clientY);
-
-    const cords = [parseInt(x), parseInt(y)];
-
-    if (isNaN(cords[0]) || isNaN(cords[1])) return;
-
-    setStop((prev) => {
-      if (prev && prev.join("") === cords.join("")) return null;
-      else return cords;
-    });
+  const resetGame = (m = 10, n = 10, c = 10) => {
+    initializeGame(m, n, c);
   };
 
   const introduced = () => !!username;
@@ -229,13 +207,10 @@ function App() {
           <>
             <Grid
               grid={grid}
-              onMouseDown={onMouseDown}
-              onMouseOver={onMouseOver}
-              onMouseUp={onMouseUp}
+              onSelectionStart={onSelectionStart}
+              onSelectionMove={onSelectionMove}
+              onSelectionStop={onSelectionStop}
               onReset={resetGame}
-              onTouchEnd={onTouchEnd}
-              onTouchMove={onTouchMove}
-              onTouchStart={onTouchStart}
               cellSelected={cellSelected}
               cellMarked={cellMarked}
             />
