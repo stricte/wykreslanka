@@ -1,10 +1,11 @@
 body {
   margin: 0;
-  font-family: "Gochi Hand", cursive;
+  font-family: "Caveat", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #fffbf7;
   color: #98785b;
+  font-size: 20px;
 }
 
 html,
@@ -156,7 +157,7 @@ input.btn[type="submit"] {
   display: block;
   width: 140px;
   height: 52px;
-  font-family: "Gochi Hand", cursive;
+  font-family: "Caveat", cursive;
   font-size: 20px;
   line-height: 52px;
   text-align: center;
