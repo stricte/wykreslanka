@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/wykreslanka/static/css/main.3fcd39f7.chunk.css",
+    "main.css": "/wykreslanka/static/css/main.8f2e5172.chunk.css",
     "main.js": "/wykreslanka/static/js/main.d56dbf2d.chunk.js",
     "main.js.map": "/wykreslanka/static/js/main.d56dbf2d.chunk.js.map",
     "runtime-main.js": "/wykreslanka/static/js/runtime-main.2b65f86f.js",
@@ -10,13 +10,13 @@
     "static/js/3.2b75da8d.chunk.js": "/wykreslanka/static/js/3.2b75da8d.chunk.js",
     "static/js/3.2b75da8d.chunk.js.map": "/wykreslanka/static/js/3.2b75da8d.chunk.js.map",
     "index.html": "/wykreslanka/index.html",
-    "static/css/main.3fcd39f7.chunk.css.map": "/wykreslanka/static/css/main.3fcd39f7.chunk.css.map",
+    "static/css/main.8f2e5172.chunk.css.map": "/wykreslanka/static/css/main.8f2e5172.chunk.css.map",
     "static/js/2.e0169a02.chunk.js.LICENSE.txt": "/wykreslanka/static/js/2.e0169a02.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2b65f86f.js",
     "static/js/2.e0169a02.chunk.js",
-    "static/css/main.3fcd39f7.chunk.css",
+    "static/css/main.8f2e5172.chunk.css",
     "static/js/main.d56dbf2d.chunk.js"
   ]
 }
