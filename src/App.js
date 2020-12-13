@@ -28,8 +28,11 @@ function App() {
   const [selectionMode, setSelectionMode] = useState(false);
 
   const [gameId, setGameId] = useStateWithLocalStorage("gameId", null);
+  // eslint-disable-next-line no-unused-vars
   const [userId, setUserId] = useStateWithLocalStorage("userId", uuidv4());
   const [username, setUsername] = useStateWithLocalStorage("username", null);
+
+  const [safetyPins, setSafetyPins] = useStateWithLocalStorage("safetPins", 0);
 
   const [markedWords, setMarkedWords] = useStateWithLocalStorage(
     "markedWords",
@@ -50,7 +53,11 @@ function App() {
     null
   );
 
-  const allMarked = () => markedWords.length === placedWords.length;
+  const allMarked = useCallback(() => {
+    if (!markedWords) return false;
+    if (!placedWords) return false;
+    return markedWords.length === placedWords.length;
+  }, [markedWords, placedWords]);
 
   const gameInitialized = useCallback(() => gameId, [gameId]);
 
@@ -82,6 +89,8 @@ function App() {
     n,
     c,
   ]);
+
+  const calcSafetyPins = () => markedWords.length;
 
   useEffect(() => {
     if (gameInitialized()) return;
@@ -133,7 +142,6 @@ function App() {
     if (markedWordIndex > -1) {
       setMarkedWords((prev) => [...prev, markedWordIndex]);
       setMarkedCords((prev) => [...prev, ...selectedCords]);
-    } else {
     }
 
     setSelectedCords();
@@ -169,19 +177,13 @@ function App() {
     initializeGame();
   };
 
-  const dummyListener = (e) => e.preventDefault();
-
   const onTouchStart = (x, y) => {
-    document.addEventListener("touchstart", dummyListener);
-
     setSelectionMode(true);
     setStart([x, y]);
     setStop([x, y]);
   };
 
   const onTouchEnd = () => {
-    document.removeEventListener("touchstart", dummyListener);
-
     setSelectionMode(false);
   };
 
@@ -196,6 +198,8 @@ function App() {
     } = document.elementFromPoint(touch.clientX, touch.clientY);
 
     const cords = [parseInt(x), parseInt(y)];
+
+    if (isNaN(cords[0]) || isNaN(cords[1])) return;
 
     setStop((prev) => {
       if (prev && prev.join("") === cords.join("")) return null;
@@ -215,7 +219,11 @@ function App() {
         {introduced() && !gameInitialized() && <Loader />}
 
         {introduced() && gameInitialized() && allMarked() && (
-          <Grats username={username} onAgain={resetGame} />
+          <Grats
+            username={username}
+            onAgain={resetGame}
+            safetyPins={safetyPins}
+          />
         )}
         {introduced() && gameInitialized() && !allMarked() && (
           <>
